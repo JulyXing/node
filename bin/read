@@ -1,0 +1,43 @@
+#!/usr/local/bin/node
+var fs = require('fs'),
+    path = require('path'),
+    $path1 = '../md/',
+    $path2 = '../jade/';
+
+// 获取 md 目录下所有文件
+fs.readdir($path1, function(error, files){
+    if (error) {
+        console.log(error);
+    } else {
+        for (var i = 0; i < files.length; i++) {
+            // 获取文件名并判断 jade 下是否有对应文件
+            filename = path.basename($path1 + files[i], '.md');
+            // console.log(filename);
+            // 获取文件内容
+            // fs.readFile($path1 + files[i], 'utf-8', function(error, data){
+            //     console.log("\n");
+            //     if (error) {
+            //         console.log(error);
+            //     } else {
+            //         console.log(data);
+            //     }
+            // });
+        }
+    }
+});
+
+// 获取 jade 目录下所有文件
+fs.readdir($path2, function(error, files){
+    if (error) {
+        console.log(error);
+    } else {
+        for (var i = 0; i < files.length; i++) {
+            console.log(files[i]);
+            var $a_file = new Array();
+            console.log(path.basename($path2 + files[i], '.jade'));
+            console.log($a_file);
+            $a_file = $a_file.push(path.basename($path2 + files[i], '.jade'));
+            console.log($a_file);
+        }
+    }
+});
