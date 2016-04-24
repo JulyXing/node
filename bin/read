@@ -12,7 +12,37 @@ fs.readdir($path1, function(error, files){
         for (var i = 0; i < files.length; i++) {
             // 获取文件名并判断 jade 下是否有对应文件
             filename = path.basename($path1 + files[i], '.md');
-            // console.log(filename);
+            console.log(filename);
+            fs.exists($path2 + filename + '.jade', function(exist){
+                if (!exist) {
+                    console.log('unexist');
+                    // 文件不存在时创建同名文件
+                    create($path2 + filename + '.jade', '', function(err){
+                        if (err) {
+                            console.log(err);
+                        } else {
+                            create($path2 + filename + '.jade', '', function(){});
+                        }
+                    });
+                    // fs.writeFile($path2 + filename + '.jade', '', function(err){
+                    //     if (err) {
+                    //         console.log(err);
+                    //     } else {
+                    //         fs.writeFile($path2 + filename + '.jade', '', function(err){
+                    //             if (err) {
+                    //                 console.log(err);
+                    //             } else {
+
+                    //             }
+                    //         });
+                    //     }
+                    // });
+                } else {
+                    // 文件存在则替换内容
+                    // console.log('exist');
+                }
+            });
+
             // 获取文件内容
             // fs.readFile($path1 + files[i], 'utf-8', function(error, data){
             //     console.log("\n");
@@ -27,17 +57,19 @@ fs.readdir($path1, function(error, files){
 });
 
 // 获取 jade 目录下所有文件
-fs.readdir($path2, function(error, files){
-    if (error) {
-        console.log(error);
-    } else {
-        for (var i = 0; i < files.length; i++) {
-            console.log(files[i]);
-            var $a_file = new Array();
-            console.log(path.basename($path2 + files[i], '.jade'));
-            console.log($a_file);
-            $a_file = $a_file.push(path.basename($path2 + files[i], '.jade'));
-            console.log($a_file);
-        }
-    }
-});
+// fs.readdir($path2, function(error, files){
+//     if (error) {
+//         console.log(error);
+//     } else {
+//         for (var i = 0; i < files.length; i++) {
+//             console.log(files[i]);
+//             console.log(path.basename($path2 + files[i], '.jade'));
+//         }
+//     }
+// });
+//
+
+// 创建文件
+function create(filename, content, callback){
+    fs.writeFile(filename, content, callback);
+};
