@@ -1,0 +1,10 @@
+*.*
+
+!.gitignore
+!bin/
+!share/
+!src/
+!var/
+!README>=.md
+!gulpfile.js
+!package.json

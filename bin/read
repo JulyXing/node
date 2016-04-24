@@ -1,8 +1,8 @@
 #!/usr/local/bin/node
 var fs = require('fs'),
     path = require('path'),
-    $path1 = '../md/',
-    $path2 = '../jade/';
+    $path1 = '../src/md/',
+    $path2 = '../src/jade/';
 
 // 获取 md 目录下所有文件
 fs.readdir($path1, function(error, files){
