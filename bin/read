@@ -1,75 +1,69 @@
 #!/usr/local/bin/node
+
 var fs = require('fs'),
     path = require('path'),
     $path1 = '../src/md/',
     $path2 = '../src/jade/';
 
 // 获取 md 目录下所有文件
-fs.readdir($path1, function(error, files){
-    if (error) {
-        console.log(error);
-    } else {
-        for (var i = 0; i < files.length; i++) {
-            // 获取文件名并判断 jade 下是否有对应文件
-            filename = path.basename($path1 + files[i], '.md');
-            console.log(filename);
-            fs.exists($path2 + filename + '.jade', function(exist){
-                if (!exist) {
-                    console.log('unexist');
-                    // 文件不存在时创建同名文件
-                    create($path2 + filename + '.jade', '', function(err){
-                        if (err) {
-                            console.log(err);
-                        } else {
-                            create($path2 + filename + '.jade', '', function(){});
-                        }
-                    });
-                    // fs.writeFile($path2 + filename + '.jade', '', function(err){
-                    //     if (err) {
-                    //         console.log(err);
-                    //     } else {
-                    //         fs.writeFile($path2 + filename + '.jade', '', function(err){
-                    //             if (err) {
-                    //                 console.log(err);
-                    //             } else {
-
-                    //             }
-                    //         });
-                    //     }
-                    // });
-                } else {
-                    // 文件存在则替换内容
-                    // console.log('exist');
+function getName(dir, callback) {
+    var i = 0;
+    fs.readdirSync(dir).forEach(function (file) {
+        ++i;
+        var pathname = path.join(dir, file);
+        if (fs.statSync(pathname).isDirectory()) {
+            dirname = pathname.split('-')[1],
+            order = pathname.split('-')[0].split('/')[3];
+            if (i == 1) {
+                result = "<div class='panel panel-default active'><div class='panel-heading'><h2 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse" + order + "'>" + dirname + "</a></h2></div><div id='collapse" + order + "' class='panel-collapse collapse in'><ul class='panel-body nav'>";
+            } else {
+                result = "<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse" + order + "'>" + dirname + "</a></h2></div><div id='collapse" + order + "' class='panel-collapse collapse in'><ul class='panel-body nav'>";
+            }
+            fs.appendFile($path1 + 'handbook.menu.base.md', result, function(err){
+                if (err) {
+                    console.log(err);
                 }
             });
-
-            // 获取文件内容
-            // fs.readFile($path1 + files[i], 'utf-8', function(error, data){
-            //     console.log("\n");
-            //     if (error) {
-            //         console.log(error);
-            //     } else {
-            //         console.log(data);
-            //     }
-            // });
+            getName(pathname, callback);
+        } else {
+            dirname = path.dirname(pathname);
+            if (dirname === undefined) {
+                return;
+            }
+            callback(pathname, dirname, i);
         }
+    });
+};
+
+getName($path1, function(filename, dirname, i){
+    var sum = count(dirname);
+    var parts = path.basename(filename, '.md').split('-'),
+        dirname = dirname.split('-')[1],
+        tree = [];
+    tree[dirname] = tree[dirname] || [];
+    tree[dirname][parts[1]] = parts[2];
+    console.log(dirname);
+    if (dirname === undefined) {
+        return;
+    } else if (i == sum) {
+        result = "<li><a href='//dahao.de/yinqing/" + parts[2] + ".html'>" + parts[1] + "</a></li></ul></div></div>";
+    } else if (i == 1) {
+        result = "<li class='active'><a href='//dahao.de/yinqing/" + parts[2] + ".html'>" + parts[1] + "</a></li>";
+    } else {
+        result = "<li><a href='//dahao.de/yinqing/" + parts[2] + ".html'>" + parts[1] + "</a></li>";
     }
+    fs.appendFile($path1 + 'handbook.menu.base.md', result, function(err){
+        if (err) {
+            console.log(err);
+        }
+    });
 });
 
-// 获取 jade 目录下所有文件
-// fs.readdir($path2, function(error, files){
-//     if (error) {
-//         console.log(error);
-//     } else {
-//         for (var i = 0; i < files.length; i++) {
-//             console.log(files[i]);
-//             console.log(path.basename($path2 + files[i], '.jade'));
-//         }
-//     }
-// });
-//
+function count(dir){
+    var i = 0;
+    fs.readdirSync(dir).forEach(function(file){
+        ++i;
+    });
 
-// 创建文件
-function create(filename, content, callback){
-    fs.writeFile(filename, content, callback);
+    return i;
 };
