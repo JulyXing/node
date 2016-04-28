@@ -7,6 +7,10 @@
     ],
     "license": "GPL-3.0",
     "author": "邢柳 <lxing@atfacg.com>",
+    "repository": {
+        "type": "git",
+        "url": "git://github.com/dahaode/bigine"
+    },
     "dependencies": {
         "gulp": "^3.9.1",
         "gulp-insert": "^0.5.0",
