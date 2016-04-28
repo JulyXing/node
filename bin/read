@@ -16,6 +16,8 @@ function getName(dir, callback) {
             order = pathname.split('-')[0].split('/')[3];
             if (i == 1) {
                 result = "<div class='panel panel-default active'><div class='panel-heading'><h2 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse" + order + "'>" + dirname + "</a></h2></div><div id='collapse" + order + "' class='panel-collapse collapse in'><ul class='panel-body nav'>";
+            } else if (count(pathname) == 0) {
+                result = "<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse" + order + "'>" + dirname + "</a></h2></div><div id='collapse" + order + "' class='panel-collapse collapse in'><ul class='panel-body nav'></ul></div></div>";
             } else {
                 result = "<div class='panel panel-default'><div class='panel-heading'><h2 class='panel-title'><a data-toggle='collapse' data-parent='#accordion' href='#collapse" + order + "'>" + dirname + "</a></h2></div><div id='collapse" + order + "' class='panel-collapse collapse in'><ul class='panel-body nav'>";
             }
@@ -42,7 +44,6 @@ getName($path1, function(filename, dirname, i){
         tree = [];
     tree[dirname] = tree[dirname] || [];
     tree[dirname][parts[1]] = parts[2];
-    console.log(dirname);
     if (dirname === undefined) {
         return;
     } else if (i == sum) {
