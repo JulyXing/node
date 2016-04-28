@@ -1,4 +1,4 @@
-*.*
+/*
 
 !.gitignore
 !bin/
@@ -8,3 +8,4 @@
 !README>=.md
 !gulpfile.js
 !package.json
+
