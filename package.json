@@ -6,10 +6,10 @@
         "node", "file"
     ],
     "license": "GPL-3.0",
-    "author": "邢柳 <lxing@atfacg.com>",
+    "author": "JulyXing <julyxing@163.com>",
     "repository": {
         "type": "git",
-        "url": "git://github.com/dahaode/bigine"
+        "url": "git://github.com/JulyXing/node"
     },
     "dependencies": {
         "gulp": "^3.9.1",
